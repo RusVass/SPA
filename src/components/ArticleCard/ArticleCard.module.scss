@@ -118,3 +118,13 @@
   padding-right: 6px;
 }
 
+@media (max-width: 600px) {
+  .card {
+    height: auto;
+  }
+
+  .cardMedia {
+    height: 150px;
+  }
+}
+

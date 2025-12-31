@@ -1,4 +1,5 @@
 import type React from 'react'
+import type { ReactElement } from 'react'
 import SearchIcon from '@mui/icons-material/Search'
 import { Box, InputAdornment, TextField, Typography } from '@mui/material'
 
@@ -7,7 +8,7 @@ type Props = {
   onChange: (value: string) => void
 }
 
-export function SearchBar({ value, onChange }: Props): JSX.Element {
+export function SearchBar({ value, onChange }: Props): ReactElement {
   function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
     onChange(e.target.value)
   }

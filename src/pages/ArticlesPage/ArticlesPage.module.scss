@@ -29,3 +29,35 @@
   gap: 24px;
 }
 
+/* Tablet */
+@media (max-width: 1024px) {
+  .page {
+    padding: 20px;
+  }
+
+  .panel {
+    padding: 20px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .page {
+    padding: 16px;
+  }
+
+  .panel {
+    padding: 16px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+

@@ -1,4 +1,5 @@
 import { createContext, useContext, useReducer, type ReactNode } from 'react'
+import type { ReactElement } from 'react'
 
 import type { Article } from './articles.types'
 
@@ -41,7 +42,7 @@ const ArticlesContext = createContext<{ state: ArticlesState; dispatch: React.Di
   undefined,
 )
 
-export function ArticlesProvider({ children }: { children: ReactNode }): JSX.Element {
+export function ArticlesProvider({ children }: { children: ReactNode }): ReactElement {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   return <ArticlesContext.Provider value={{ state, dispatch }}>{children}</ArticlesContext.Provider>
