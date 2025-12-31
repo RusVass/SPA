@@ -3,6 +3,7 @@ export interface Article {
   title: string
   url: string
   image_url: string
+  content?: string | null
   summary: string
   published_at: string
   updated_at?: string

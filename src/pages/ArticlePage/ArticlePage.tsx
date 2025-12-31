@@ -1,113 +1,88 @@
-import { useEffect, useMemo, useState } from 'react'
-import { Alert, Box, Button, CircularProgress, Container, Typography } from '@mui/material'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useEffect, useState, type JSX } from 'react'
+import { Alert, Box, CircularProgress, Typography } from '@mui/material'
+import { Link as RouterLink, useParams } from 'react-router-dom'
 import { fetchArticleById } from '../../api/articlesApi'
 import type { Article, ArticleId } from '../../features/articles/articles.types'
-import { useArticles } from '../../features/articles/articles.store'
 import styles from './ArticlePage.module.scss'
 
-type LoadState =
-  | { status: 'idle' }
-  | { status: 'loading' }
-  | { status: 'success'; article: Article }
-  | { status: 'error'; message: string }
-
-function toArticleId(value: string | undefined): ArticleId | null {
-  if (!value) return null
-  const n = Number(value)
-  if (!Number.isFinite(n)) return null
-  if (!Number.isInteger(n)) return null
-  if (n <= 0) return null
-  return n as ArticleId
-}
-
 export function ArticlePage(): JSX.Element {
-  const navigate = useNavigate()
-  const params = useParams()
-  const id = useMemo(() => toArticleId(params.id), [params.id])
-
-  const { state } = useArticles()
-  const [loadState, setLoadState] = useState<LoadState>({ status: 'idle' })
-
-  const cached = useMemo(() => {
-    if (!id) return null
-    return state.articles.find((a) => a.id === id) ?? null
-  }, [id, state.articles])
+  const { id } = useParams()
+  const [article, setArticle] = useState<Article | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!id) {
-      setLoadState({ status: 'error', message: 'Invalid article id' })
+      setError('Invalid article id')
+      setIsLoading(false)
       return
     }
 
-    if (cached) {
-      setLoadState({ status: 'success', article: cached })
+    let isCancelled = false
+    const parsedId = Number(id)
+    if (!Number.isFinite(parsedId) || !Number.isInteger(parsedId) || parsedId <= 0) {
+      setError('Invalid article id')
+      setIsLoading(false)
       return
     }
 
-    void load(id)
-  }, [id, cached])
-
-  async function load(articleId: ArticleId): Promise<void> {
-    setLoadState({ status: 'loading' })
-    try {
-      const article = await fetchArticleById(articleId)
-      setLoadState({ status: 'success', article })
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to load article'
-      setLoadState({ status: 'error', message })
+    async function load(): Promise<void> {
+      try {
+        setIsLoading(true)
+        setError(null)
+        const data = await fetchArticleById(parsedId as ArticleId)
+        if (!isCancelled) setArticle(data)
+      } catch (err) {
+        if (!isCancelled) setError(err instanceof Error ? err.message : 'Failed to load article')
+      } finally {
+        if (!isCancelled) setIsLoading(false)
+      }
     }
-  }
 
-  function handleBack(): void {
-    navigate('/')
-  }
+    void load()
+
+    return () => {
+      isCancelled = true
+    }
+  }, [id])
 
   return (
-    <Box className={styles.wrapper}>
-      <Container maxWidth={false} className={styles.page}>
-        <Box className={styles.inner}>
-          <Box className={styles.back}>
-            <Button variant="text" size="small" onClick={handleBack}>
-              ← Back to results
-            </Button>
-          </Box>
+    <div className={styles.page}>
+      <div
+        className={styles.hero}
+        style={{ backgroundImage: `url(${article?.image_url ?? ''})` }}
+      />
 
-          {loadState.status === 'loading' && <CircularProgress />}
+      <div className={styles.content}>
+        <div className={styles.contentInner}>
+          {isLoading && <CircularProgress />}
 
-          {loadState.status === 'error' && <Alert severity="error">{loadState.message}</Alert>}
+          {!isLoading && error && <Alert severity="error">{error}</Alert>}
 
-          {loadState.status === 'success' && (
-            <Box className={styles.card}>
-              {loadState.article.image_url && (
-                <Box sx={{ mb: 2 }}>
-                  <img
-                    src={loadState.article.image_url}
-                    alt={loadState.article.title}
-                    style={{
-                      width: '100%',
-                      borderRadius: 8,
-                      objectFit: 'cover',
-                    }}
-                  />
-                </Box>
-              )}
-              <Typography variant="h5" component="h1">
-                {loadState.article.title}
-              </Typography>
+          {!isLoading && !error && article && (
+            <>
+              <div className={styles.cardWrap}>
+                <div className={styles.card}>
+                  <Typography className={styles.title} component="h1">
+                    {article.title}
+                  </Typography>
 
-              <Typography variant="caption" color="text.secondary">
-                {new Date(loadState.article.published_at).toLocaleDateString()}
-              </Typography>
+                  <Typography className={styles.body} component="p">
+                    {article.summary}
+                  </Typography>
+                </div>
+              </div>
 
-              <Typography sx={{ mt: 2 }} variant="body1">
-                {loadState.article.summary}
-              </Typography>
-            </Box>
+              <Box className={styles.back}>
+                <RouterLink className={styles.backLink} to="/">
+                  ← Back to homepage
+                </RouterLink>
+              </Box>
+            </>
           )}
-        </Box>
-      </Container>
-    </Box>
+        </div>
+      </div>
+    </div>
   )
 }
 

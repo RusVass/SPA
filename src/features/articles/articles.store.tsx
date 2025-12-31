@@ -7,7 +7,6 @@ interface ArticlesState {
   query: string
   isLoading: boolean
   error: string | null
-  openArticleId: number | null
 }
 
 type ArticlesAction =
@@ -15,15 +14,12 @@ type ArticlesAction =
   | { type: 'LOAD_SUCCESS'; articles: Article[] }
   | { type: 'LOAD_ERROR'; message: string }
   | { type: 'SET_QUERY'; query: string }
-  | { type: 'OPEN_ARTICLE'; id: number }
-  | { type: 'CLOSE_ARTICLE' }
 
 const initialState: ArticlesState = {
   articles: [],
   query: '',
   isLoading: false,
   error: null,
-  openArticleId: null,
 }
 
 function reducer(state: ArticlesState, action: ArticlesAction): ArticlesState {
@@ -36,10 +32,6 @@ function reducer(state: ArticlesState, action: ArticlesAction): ArticlesState {
       return { ...state, isLoading: false, error: action.message }
     case 'SET_QUERY':
       return { ...state, query: action.query }
-    case 'OPEN_ARTICLE':
-      return { ...state, openArticleId: action.id }
-    case 'CLOSE_ARTICLE':
-      return { ...state, openArticleId: null }
     default:
       return state
   }

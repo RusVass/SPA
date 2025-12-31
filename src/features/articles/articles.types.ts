@@ -4,6 +4,7 @@ export type Article = {
   id: ArticleId
   title: string
   summary: string
+  content?: string | null
   image_url: string | null
   published_at: string
 }

@@ -2,16 +2,15 @@ import type { JSX } from 'react'
 import { useCallback, useEffect } from 'react'
 import { Alert, CircularProgress, Typography } from '@mui/material'
 
-import type { Article } from '../../features/articles/articles.types'
-import { getResultsCount } from '../../features/articles/articles.utils'
 import { fetchArticles } from '../../api/articlesApi'
 import { ArticleCard } from '../../components/ArticleCard/ArticleCard'
 import { SearchBar } from '../../components/SearchBar/SearchBar'
 import { getVisibleArticles } from '../../features/articles/articles.selectors'
+import { getResultsCount } from '../../features/articles/articles.utils'
 import { useArticles } from '../../features/articles/articles.store'
-import styles from './HomePage.module.scss'
+import styles from './ArticlesPage.module.scss'
 
-export function HomePage(): JSX.Element {
+export function ArticlesPage(): JSX.Element {
   const { state, dispatch } = useArticles()
   const { keywords, visible } = getVisibleArticles(state.articles, state.query)
   const resultsCount = getResultsCount(visible, state.query)
@@ -33,14 +32,6 @@ export function HomePage(): JSX.Element {
 
   function handleQueryChange(value: string): void {
     dispatch({ type: 'SET_QUERY', query: value })
-  }
-
-  function handleOpenArticle(article: Article): void {
-    dispatch({ type: 'OPEN_ARTICLE', id: article.id })
-  }
-
-  function handleCloseArticle(): void {
-    dispatch({ type: 'CLOSE_ARTICLE' })
   }
 
   return (
@@ -67,9 +58,6 @@ export function HomePage(): JSX.Element {
                 key={a.id}
                 article={a}
                 keywords={keywords}
-                isOpen={state.openArticleId === a.id}
-                onOpen={handleOpenArticle}
-                onClose={handleCloseArticle}
               />
             ))}
           </div>
