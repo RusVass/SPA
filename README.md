@@ -1,73 +1,124 @@
-# React + TypeScript + Vite
+# Frontend Test – Articles SPA
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Single Page Application built with **React + TypeScript** that displays and filters articles from an open public API.
 
-Currently, two official plugins are available:
+The project follows the provided **Figma low-fidelity prototype** and implements all required features from the test assignment.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🔗 Demo
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Local development:
 
-## Expanding the ESLint configuration
+API used:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 📌 Features
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Home page
+- Articles displayed as **cards**
+- Each card contains:
+  - Image
+  - Publication date
+  - Title
+  - Short description (trimmed to 100 characters)
+- Keyword search with:
+  - Multiple keywords support
+  - Case-insensitive matching
+  - Highlighted matches (yellow)
+- Result counter
+- Responsive grid:
+  - Desktop: 3 columns
+  - Tablet: 2 columns
+  - Mobile: 1 column
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Article page
+- Full article view
+- Hero image
+- Title
+- Full description
+- Back to homepage link
+- **No date shown**, according to Figma
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🔍 Search logic
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Input supports multiple keywords separated by spaces or commas
+- Articles are filtered if **at least one keyword** matches:
+  - Title
+  - Description
+- Ranking priority:
+  1. Matches in title
+  2. Matches in description
+- Highlighting is applied to matched words only
+
+---
+
+## 🧠 State management
+
+State is managed using **React Context + useReducer**:
+- Articles list
+- Search query
+- Loading state
+- Error handling
+
+This approach keeps the logic predictable and easy to scale.
+
+---
+
+## 🧩 Custom logic & utilities
+
+The project includes:
+- Custom selectors
+- Search and ranking utilities
+- Keyword parsing
+- Highlighting logic
+- Result counter
+- Text truncation
+
+All core logic is **unit-tested**.
+
+---
+
+## 🧪 Tests
+
+Tests are written with **Vitest** and cover:
+- Keyword parsing
+- Article filtering and sorting
+- Highlight splitting
+- Utility helpers
+
+Test files:
+- `articles.search.test.ts`
+- `articles.utils.test.ts`
+
+---
+
+## 🛠️ Tech stack
+
+- **React**
+- **TypeScript**
+- **Vite**
+- **Material UI**
+- **SCSS Modules**
+- **Axios**
+- **React Router**
+- **Vitest**
+
+---
+
+## 📁 Project structure
+
+
+---
+
+## 🚀 Getting started
+
+Install dependencies:
+```bash
+npm install
+npm run dev
+npm run test
+npm run build

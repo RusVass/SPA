@@ -38,6 +38,7 @@ export function ArticlesPage(): JSX.Element {
     <div className={styles.page}>
       <div className={styles.panel}>
         <div className={styles.header}>
+          <Typography className={styles.filterLabel}>Filter by keywords</Typography>
           <div className={styles.search}>
             <SearchBar value={state.query} onChange={handleQueryChange} />
           </div>
@@ -46,6 +47,7 @@ export function ArticlesPage(): JSX.Element {
         <Typography variant="subtitle1" sx={{ color: '#000000', fontWeight: 600, mb: 2 }}>
           Results: {resultsCount}
         </Typography>
+        <div className={styles.divider} />
 
         {state.isLoading && <CircularProgress />}
 

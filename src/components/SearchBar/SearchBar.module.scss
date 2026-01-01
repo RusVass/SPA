@@ -1,3 +1,53 @@
 .root {
+  max-width: 560px;
+}
+
+.input {
+  :global(.MuiOutlinedInput-root) {
+    height: 44px;
+    border-radius: 4px;
+    background: #ffffff;
+  }
+
+  :global(.MuiOutlinedInput-notchedOutline) {
+    border-color: #e5e7eb;
+  }
+
+  :global(.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline) {
+    border-color: #d1d5db;
+  }
+
+  :global(.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline) {
+    border-color: #d1d5db;
+  }
+
+  :global(.MuiOutlinedInput-input) {
+    padding: 0 14px 0 0;
+    font-size: 14px;
+  }
+
+  :global(.MuiInputAdornment-root) {
+    color: #9ca3af;
+  }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .root {
+    max-width: 520px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .root {
+    max-width: 100%;
+  }
+
+  .input {
+    :global(.MuiOutlinedInput-root) {
+      height: 42px;
+    }
+  }
 }
 

@@ -1,9 +1,10 @@
 import { useState, type JSX } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { Card, CardActionArea, CardActions, CardContent, Typography } from '@mui/material'
+import EventOutlinedIcon from '@mui/icons-material/EventOutlined'
 
 import type { Article } from '../../features/articles/articles.types'
-import { truncate } from '../../features/articles/articles.utils'
+import { truncate, formatPublishedDate } from '../../features/articles/articles.utils'
 import { HighlightText } from '../HighlightText/HighlightText'
 import styles from './ArticleCard.module.scss'
 
@@ -15,6 +16,7 @@ interface Props {
 export function ArticleCard({ article, keywords }: Props): JSX.Element {
   const [failedImageUrl, setFailedImageUrl] = useState<string | null>(null)
   const isImageOk = failedImageUrl !== article.image_url
+  const publishedText = formatPublishedDate(article.published_at)
 
   return (
     <Card className={styles.card} elevation={1}>
@@ -32,6 +34,13 @@ export function ArticleCard({ article, keywords }: Props): JSX.Element {
         </div>
 
         <CardContent className={styles.content}>
+          {publishedText && (
+            <div className={styles.meta}>
+              <EventOutlinedIcon className={styles.metaIcon} />
+              <span className={styles.metaText}>{publishedText}</span>
+            </div>
+          )}
+
           <Typography variant="subtitle1" component="h2" className={styles.title}>
             <HighlightText text={article.title} keywords={keywords} />
           </Typography>

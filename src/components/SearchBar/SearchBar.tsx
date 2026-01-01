@@ -1,57 +1,35 @@
-import type React from 'react'
-import type { ReactElement } from 'react'
+import type { JSX } from 'react'
 import SearchIcon from '@mui/icons-material/Search'
-import { Box, InputAdornment, TextField, Typography } from '@mui/material'
+import { InputAdornment, TextField } from '@mui/material'
 
-type Props = {
+import styles from './SearchBar.module.scss'
+
+interface Props {
   value: string
   onChange: (value: string) => void
+  placeholder?: string
 }
 
-export function SearchBar({ value, onChange }: Props): ReactElement {
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
-    onChange(e.target.value)
-  }
-
+export function SearchBar({ value, onChange, placeholder }: Props): JSX.Element {
   return (
-    <Box sx={{ mb: 3 }}>
-      <Typography
-        variant="caption"
-        sx={{
-          mb: 0.5,
-          display: 'block',
-          fontSize: 16,
-          fontWeight: 700,
-          color: '#6b6b6b',
-        }}
-      >
-        Filter by keywords
-      </Typography>
-
+    <div className={styles.root}>
       <TextField
-        fullWidth
-        variant="standard"
-        placeholder="The most successful IT companies in 2020"
         value={value}
-        onChange={handleChange}
+        onChange={(event) => onChange(event.target.value)}
+        placeholder={placeholder ?? 'The most successful IT companies in 2020'}
+        fullWidth
+        variant="outlined"
+        size="small"
+        className={styles.input}
         InputProps={{
-          disableUnderline: true,
           startAdornment: (
             <InputAdornment position="start">
-              <SearchIcon sx={{ color: '#9e9e9e' }} />
+              <SearchIcon fontSize="small" />
             </InputAdornment>
           ),
-          sx: {
-            backgroundColor: '#ffffff',
-            borderRadius: 1,
-            fontSize: 28,
-            color: '#9e9e9e',
-            px: 2,
-            py: 1.5,
-          },
         }}
       />
-    </Box>
+    </div>
   )
 }
 
