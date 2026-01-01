@@ -1,6 +1,6 @@
 import { useState, type JSX } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import { Card, CardActionArea, CardContent, Typography } from '@mui/material'
+import { Card, CardContent, Typography } from '@mui/material'
 import EventOutlinedIcon from '@mui/icons-material/EventOutlined'
 
 import type { Article } from '../../features/articles/articles.types'
@@ -20,38 +20,43 @@ export function ArticleCard({ article, keywords }: Props): JSX.Element {
 
   return (
     <Card className={styles.card} elevation={1}>
-      <CardActionArea className={styles.actionArea} component={RouterLink} to={`/articles/${article.id}`}>
-        <div className={styles.cardMedia}>
-          {article.image_url && isImageOk ? (
-            <img
-              src={article.image_url}
-              alt={article.title}
-              onError={() => setFailedImageUrl(article.image_url)}
-            />
-          ) : (
-            <span className={styles.cardMediaFallback}>No image</span>
-          )}
-        </div>
+      <div className={styles.cardMedia}>
+        {article.image_url && isImageOk ? (
+          <img
+            src={article.image_url}
+            alt={article.title}
+            onError={() => setFailedImageUrl(article.image_url)}
+          />
+        ) : (
+          <span className={styles.cardMediaFallback}>No image</span>
+        )}
+      </div>
 
-        <CardContent className={styles.content}>
-          {publishedText && (
-            <div className={styles.meta}>
-              <EventOutlinedIcon className={styles.metaIcon} />
-              <span className={styles.metaText}>{publishedText}</span>
-            </div>
-          )}
+      <CardContent className={styles.content}>
+        {publishedText && (
+          <div className={styles.meta}>
+            <EventOutlinedIcon className={styles.metaIcon} />
+            <span className={styles.metaText}>{publishedText}</span>
+          </div>
+        )}
 
-          <Typography variant="subtitle1" component="h2" className={styles.title}>
-            <HighlightText text={article.title} keywords={keywords} />
-          </Typography>
+        <Typography variant="subtitle1" component="h2" className={styles.title}>
+          <HighlightText text={article.title} keywords={keywords} />
+        </Typography>
 
-          <Typography variant="body2" color="text.secondary" className={styles.summary}>
-            <HighlightText text={truncate(article.summary, 100)} keywords={keywords} />
-          </Typography>
-        </CardContent>
+        <Typography variant="body2" className={styles.summary}>
+          <HighlightText text={truncate(article.summary, 100)} keywords={keywords} />
+        </Typography>
+      </CardContent>
 
-        <span className={styles.readMore}>Read more →</span>
-      </CardActionArea>
+      <div className={styles.actions}>
+        <RouterLink
+          to={`/articles/${article.id}`}
+          className={styles.readMore}
+        >
+          Read more →
+        </RouterLink>
+      </div>
     </Card>
   )
 }
