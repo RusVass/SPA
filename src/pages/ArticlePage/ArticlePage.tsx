@@ -46,6 +46,11 @@ export function ArticlePage(): JSX.Element {
     }
   }, [id])
 
+  const summaryParagraphs = (article?.summary ?? '')
+    .split(/\n\s*\n/g)
+    .map((p) => p.trim())
+    .filter(Boolean)
+
   return (
     <div className={styles.page}>
       <div
@@ -63,13 +68,15 @@ export function ArticlePage(): JSX.Element {
             <>
               <div className={styles.cardWrap}>
                 <div className={styles.card}>
-                  <Typography className={styles.title} component="h1">
-                    {article.title}
-                  </Typography>
+                  <h1 className={styles.title}>{article.title}</h1>
 
-                  <Typography className={styles.body} component="p">
-                    {article.summary}
-                  </Typography>
+                  <div className={styles.body}>
+                    {summaryParagraphs.map((p, idx) => (
+                      <Typography key={idx} className={styles.paragraph} component="p">
+                        {p}
+                      </Typography>
+                    ))}
+                  </div>
                 </div>
               </div>
 

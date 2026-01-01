@@ -1,6 +1,6 @@
 import { useState, type JSX } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import { Card, CardActionArea, CardActions, CardContent, Typography } from '@mui/material'
+import { Card, CardActionArea, CardContent, Typography } from '@mui/material'
 import EventOutlinedIcon from '@mui/icons-material/EventOutlined'
 
 import type { Article } from '../../features/articles/articles.types'
@@ -20,7 +20,7 @@ export function ArticleCard({ article, keywords }: Props): JSX.Element {
 
   return (
     <Card className={styles.card} elevation={1}>
-      <CardActionArea component={RouterLink} to={`/articles/${article.id}`}>
+      <CardActionArea className={styles.actionArea} component={RouterLink} to={`/articles/${article.id}`}>
         <div className={styles.cardMedia}>
           {article.image_url && isImageOk ? (
             <img
@@ -50,15 +50,7 @@ export function ArticleCard({ article, keywords }: Props): JSX.Element {
           </Typography>
         </CardContent>
 
-        <CardActions className={styles.actions}>
-          <Typography
-            variant="body2"
-            className={styles.readMore}
-            sx={{ color: '#000', fontSize: 14, textTransform: 'none' }}
-          >
-            Read more →
-          </Typography>
-        </CardActions>
+        <span className={styles.readMore}>Read more →</span>
       </CardActionArea>
     </Card>
   )
