@@ -16,7 +16,7 @@ export function SearchBar({ value, onChange, placeholder }: Props): JSX.Element 
       <TextField
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        placeholder={placeholder ?? ''}
+        placeholder={placeholder ?? 'Search articles'}
         fullWidth
         variant="outlined"
         size="small"
