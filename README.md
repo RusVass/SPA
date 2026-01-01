@@ -10,7 +10,15 @@ The project follows the provided **Figma low-fidelity prototype** and implements
 
 Local development:
 
+
+http://localhost:5173
+
+
 API used:
+
+
+https://api.spaceflightnewsapi.net/v4/articles
+
 
 ---
 
@@ -111,6 +119,22 @@ Test files:
 
 ## 📁 Project structure
 
+```
+src/
+├── api/ # API layer (axios, requests)
+├── app/ # App bootstrap & router
+├── components/ # Reusable UI components
+│ ├── ArticleCard
+│ ├── HighlightText
+│ └── SearchBar
+├── features/
+│ └── articles/ # Domain logic (store, selectors, utils)
+├── pages/
+│ ├── ArticlesPage
+│ └── ArticlePage
+├── styles/ # Global styles
+└── main.tsx
+```
 
 ---
 
@@ -119,6 +143,20 @@ Test files:
 Install dependencies:
 ```bash
 npm install
+```
+
+Run development server:
+```bash
 npm run dev
+```
+
+Run tests:
+```bash
 npm run test
+```
+
+Build for production:
+```bash
 npm run build
+```
+
