@@ -153,7 +153,7 @@ src/
 │     ├── articles.selectors.ts # Computed state selectors
 │     ├── articles.search.ts & .test.ts # Search & filtering logic
 │     ├── articles.utils.ts & .test.ts # Utility functions
-│     └── articles.types.ts # TypeScript definitions
+│     └── articles.types.ts # TypeScript type definitions
 ├── pages/
 │ ├── ArticlesPage
 │ └── ArticlePage
