@@ -3,7 +3,7 @@ import type { Article } from './articles.types'
 const TITLE_WEIGHT = 2
 const DESCRIPTION_WEIGHT = 1
 
-export function parseKeywords(query: string): string[] {
+export const parseKeywords = (query: string): string[] => {
   const parts = query
     .toLowerCase()
     .split(/[\s,]+/g)
@@ -13,12 +13,12 @@ export function parseKeywords(query: string): string[] {
   return Array.from(new Set(parts))
 }
 
-function countIncludes(text: string, keywords: string[]): number {
+const countIncludes = (text: string, keywords: string[]): number => {
   const value = text.toLowerCase()
   return keywords.reduce((acc, k) => (value.includes(k) ? acc + 1 : acc), 0)
 }
 
-export function filterAndSortArticles(articles: Article[], keywords: string[]): Article[] {
+export const filterAndSortArticles = (articles: Article[], keywords: string[]): Article[] => {
   if (keywords.length === 0) return articles
 
   const ranked = articles
@@ -46,11 +46,14 @@ export function filterAndSortArticles(articles: Article[], keywords: string[]): 
   return ranked.map((x) => x.article)
 }
 
-function escapeRegExp(value: string): string {
+const escapeRegExp = (value: string): string => {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
-export function splitToHighlightParts(text: string, keywords: string[]): Array<{ text: string; isHit: boolean }> {
+export const splitToHighlightParts = (
+  text: string,
+  keywords: string[],
+): Array<{ text: string; isHit: boolean }> => {
   if (!text) return [{ text: '', isHit: false }]
   if (keywords.length === 0) return [{ text, isHit: false }]
 

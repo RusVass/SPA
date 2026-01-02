@@ -8,18 +8,18 @@ type Props = {
   keywords: string[]
 }
 
-export function HighlightText({ text, keywords }: Props): JSX.Element {
+export const HighlightText = ({ text, keywords }: Props): JSX.Element => {
   const parts = splitToHighlightParts(text, keywords)
 
   return (
     <>
-      {parts.map((p, idx) =>
-        p.isHit ? (
-          <mark key={idx} className={styles.hit}>
-            {p.text}
+      {parts.map((part, index) =>
+        part.isHit ? (
+          <mark key={index} className={styles.hit}>
+            {part.text}
           </mark>
         ) : (
-          <span key={idx}>{p.text}</span>
+          <span key={index}>{part.text}</span>
         ),
       )}
     </>

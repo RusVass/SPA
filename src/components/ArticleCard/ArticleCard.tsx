@@ -13,7 +13,7 @@ interface Props {
   keywords: string[]
 }
 
-export function ArticleCard({ article, keywords }: Props): JSX.Element {
+export const ArticleCard = ({ article, keywords }: Props): JSX.Element => {
   const [failedImageUrl, setFailedImageUrl] = useState<string | null>(null)
   const isImageOk = failedImageUrl !== article.image_url
   const publishedText = formatPublishedDate(article.published_at)

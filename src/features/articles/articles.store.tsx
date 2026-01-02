@@ -1,4 +1,10 @@
-import { createContext, useContext, useReducer, type ReactNode } from 'react'
+import {
+  createContext,
+  useContext,
+  useReducer,
+  type Dispatch,
+  type ReactNode,
+} from 'react'
 import type { ReactElement } from 'react'
 
 import type { Article } from './articles.types'
@@ -16,6 +22,11 @@ type ArticlesAction =
   | { type: 'LOAD_ERROR'; message: string }
   | { type: 'SET_QUERY'; query: string }
 
+type ArticlesContextValue = {
+  state: ArticlesState
+  dispatch: Dispatch<ArticlesAction>
+}
+
 const initialState: ArticlesState = {
   articles: [],
   query: '',
@@ -23,7 +34,11 @@ const initialState: ArticlesState = {
   error: null,
 }
 
-function reducer(state: ArticlesState, action: ArticlesAction): ArticlesState {
+const assertNever = (value: never): never => {
+  throw new Error(`Unhandled action: ${JSON.stringify(value)}}`)
+}
+
+const reducer = (state: ArticlesState, action: ArticlesAction): ArticlesState => {
   switch (action.type) {
     case 'LOAD_START':
       return { ...state, isLoading: true, error: null }
@@ -34,21 +49,23 @@ function reducer(state: ArticlesState, action: ArticlesAction): ArticlesState {
     case 'SET_QUERY':
       return { ...state, query: action.query }
     default:
-      return state
+      return assertNever(action)
   }
 }
 
-const ArticlesContext = createContext<{ state: ArticlesState; dispatch: React.Dispatch<ArticlesAction> } | undefined>(
-  undefined,
-)
+const ArticlesContext = createContext<ArticlesContextValue | undefined>(undefined)
 
-export function ArticlesProvider({ children }: { children: ReactNode }): ReactElement {
+export const ArticlesProvider = ({ children }: { children: ReactNode }): ReactElement => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  return <ArticlesContext.Provider value={{ state, dispatch }}>{children}</ArticlesContext.Provider>
+  return (
+    <ArticlesContext.Provider value={{ state, dispatch }}>
+      {children}
+    </ArticlesContext.Provider>
+  )
 }
 
-export function useArticles(): { state: ArticlesState; dispatch: React.Dispatch<ArticlesAction> } {
+export const useArticles = (): ArticlesContextValue => {
   const ctx = useContext(ArticlesContext)
   if (!ctx) {
     throw new Error('useArticles must be used inside ArticlesProvider')

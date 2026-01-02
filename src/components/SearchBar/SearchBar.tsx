@@ -10,7 +10,7 @@ interface Props {
   placeholder?: string
 }
 
-export function SearchBar({ value, onChange, placeholder }: Props): JSX.Element {
+export const SearchBar = ({ value, onChange, placeholder }: Props): JSX.Element => {
   return (
     <div className={styles.root}>
       <TextField
