@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { reducer, initialState, type ArticlesAction } from './articles.reducer'
+import type { Article } from './articles.types'
 
 describe('articles reducer', () => {
   it('should return initial state when called with initial state', () => {
@@ -18,7 +19,7 @@ describe('articles reducer', () => {
   })
 
   it('should handle LOAD_SUCCESS', () => {
-    const articles = [{ id: 1, title: 'Test Article' }] as any[]
+    const articles: Article[] = [{ id: 1, title: 'Test Article' } as Article]
     const action: ArticlesAction = { type: 'LOAD_SUCCESS', articles }
     const result = reducer({ ...initialState, isLoading: true }, action)
 
@@ -49,7 +50,7 @@ describe('articles reducer', () => {
   })
 
   it('should throw error for unhandled action', () => {
-    const action = { type: 'UNKNOWN_ACTION' } as any
+    const action = { type: 'UNKNOWN_ACTION' } as unknown as ArticlesAction
 
     expect(() => reducer(initialState, action)).toThrow('Unhandled action')
   })
