@@ -104,6 +104,19 @@ Test files:
 
 ---
 
+## 🔒 Quality Gates
+
+The project uses **Husky** to enforce code quality before pushes:
+
+**Pre-push checks include:**
+- **Linting** (`npm run lint`) - Code style and error checking
+- **Testing** (`npm test`) - All unit tests must pass
+- **Building** (`npm run build`) - TypeScript compilation and build verification
+
+If any check fails, the push will be blocked automatically.
+
+---
+
 ## 🛠️ Tech stack
 
 - **React**
@@ -163,3 +176,4 @@ npm run build
 
 
 
+# Test comment
