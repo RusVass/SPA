@@ -66,13 +66,18 @@ https://api.spaceflightnewsapi.net/v4/articles
 
 ## 🧠 State management
 
-State is managed using **React Context + useReducer**:
-- Articles list
-- Search query
-- Loading state
-- Error handling
+State is managed using **React Context + useReducer** with clean architecture:
+- **articles.reducer.ts** - Actions, reducer logic, and state types
+- **articles.store.tsx** - Context provider and custom hooks
+- **articles.selectors.ts** - Computed state and business logic
 
-This approach keeps the logic predictable and easy to scale.
+Features:
+- Articles list with pagination
+- Search query with real-time filtering
+- Loading states and error handling
+- Type-safe actions with exhaustive checking
+
+This approach keeps the logic predictable, testable, and easy to scale.
 
 ---
 
@@ -99,8 +104,9 @@ Tests are written with **Vitest** and cover:
 - Utility helpers
 
 Test files:
-- `articles.search.test.ts`
-- `articles.utils.test.ts`
+- `articles.reducer.test.ts` - State management tests
+- `articles.search.test.ts` - Search logic tests
+- `articles.utils.test.ts` - Utility functions tests
 
 ---
 
@@ -141,7 +147,13 @@ src/
 │ ├── HighlightText
 │ └── SearchBar
 ├── features/
-│ └── articles/ # Domain logic (store, selectors, utils)
+│ └── articles/ # Domain logic
+│     ├── articles.reducer.ts & .test.ts # State management (actions, reducer)
+│     ├── articles.store.tsx # Context provider & hooks
+│     ├── articles.selectors.ts # Computed state selectors
+│     ├── articles.search.ts & .test.ts # Search & filtering logic
+│     ├── articles.utils.ts & .test.ts # Utility functions
+│     └── articles.types.ts # TypeScript definitions
 ├── pages/
 │ ├── ArticlesPage
 │ └── ArticlePage
