@@ -65,6 +65,7 @@ export const ArticlesProvider = ({ children }: { children: ReactNode }): ReactEl
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useArticles = (): ArticlesContextValue => {
   const ctx = useContext(ArticlesContext)
   if (!ctx) {
