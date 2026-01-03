@@ -3,6 +3,9 @@ import { Alert, Box, CircularProgress, Typography } from '@mui/material'
 import { Link as RouterLink, useParams } from 'react-router-dom'
 import { fetchArticleById } from '../../api/articlesApi'
 import type { Article, ArticleId } from '../../features/articles/articles.types'
+import { useArticles } from '../../features/articles/articles.store'
+import { parseKeywords } from '../../features/articles/articles.search'
+import { HighlightText } from '../../components/HighlightText/HighlightText'
 import styles from './ArticlePage.module.scss'
 
 export function ArticlePage(): JSX.Element {
@@ -10,6 +13,8 @@ export function ArticlePage(): JSX.Element {
   const [article, setArticle] = useState<Article | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const { state } = useArticles()
+  const keywords = parseKeywords(state.query)
 
   useEffect(() => {
     if (!id) {
@@ -68,12 +73,14 @@ export function ArticlePage(): JSX.Element {
             <>
               <div className={styles.cardWrap}>
                 <div className={styles.card}>
-                  <h1 className={styles.title}>{article.title}</h1>
+                  <h1 className={styles.title}>
+                    <HighlightText text={article.title} keywords={keywords} />
+                  </h1>
 
                   <div className={styles.body}>
                     {summaryParagraphs.map((p, idx) => (
                       <Typography key={idx} className={styles.paragraph} component="p">
-                        {p}
+                        <HighlightText text={p} keywords={keywords} />
                       </Typography>
                     ))}
                   </div>
